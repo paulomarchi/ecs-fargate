@@ -16,7 +16,6 @@ variable "public_subnets_ids" {
 }
 
 variable "security_groups_app" {
-  type        = "list"
   description = "Security Group App"
 }
 

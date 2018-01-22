@@ -7,5 +7,5 @@ output "name" {
 }
 
 output "dns" {
-  value = ["${aws_alb.lb_main.dns_name}"]
+  value = "${aws_alb.lb_main.dns_name}"
 }

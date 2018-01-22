@@ -7,7 +7,6 @@ variable "project" {
 }
 
 variable "vpc_id" {
-  type        = "list"
   description = "VPC ID"
 }
 
@@ -16,7 +15,6 @@ variable "public_subnets_ids" {
   description = "VPC Public Subnets"
 }
 
-variable "security_group_ids" {
-  type = "list"
+variable "security_group_id" {
   description = "Insert Secutrity Group IDs"
 }

@@ -8,7 +8,6 @@ variable "project" {
 
 variable "vpc_cidr_blocks" {
     description = "Insert CIR Blocks for VPCs"
-    type = "list"
 }
 
 variable "aws_azs" {

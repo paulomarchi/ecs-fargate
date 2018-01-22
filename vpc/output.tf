@@ -1,5 +1,5 @@
 output "vpc_id" {
-  value = "${aws_vpc.main.*.id}"
+  value = "${aws_vpc.main.id}"
 }
 
 output "public_subnets_ids" {
@@ -7,11 +7,11 @@ output "public_subnets_ids" {
 }
 
 output "internet_gateways" {
-  value = ["${aws_internet_gateway.main-gw.*.id}"]
+  value = ["${aws_internet_gateway.main-gw.id}"]
 }
 
 output "route_tables" {
-  value = ["${aws_route_table.main-public-route-table.*.id}"]
+  value = "${aws_route_table.main-public-route-table.id}"
 }
 
 output "route_table_subnet_associations" {

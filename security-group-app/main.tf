@@ -18,7 +18,7 @@ resource "aws_security_group" "sg-poc-app" {
   }
 
   tags {
-    Name = "POC App"
+    Name = "sg-poc-app-${var.project}"
     Owner = "${var.owner}"
     Project = "${var.project}"
   }

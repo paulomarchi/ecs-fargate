@@ -2,7 +2,7 @@ module "vpc" {
   source              = "./vpc"
   owner               = "${var.owner}"
   project             = "${var.project}"
-  vpc_cidr_blocks     = ["${var.vpc_cidr_blocks}"]
+  vpc_cidr_blocks     = "${var.vpc_cidr_blocks}"
   aws_azs             = ["${var.aws_azs}"]
   subnets_cidr_blocks = ["${var.subnets_cidr_blocks}"]  
 }
@@ -24,7 +24,7 @@ module "security-group-app" {
   project = "${var.project}"
   owner = "${var.owner}"
   vpc_id = "${module.vpc.vpc_id}"
-  ingress_security_groups = ["${module.security-group-lb.security_group_ids}"]
+  ingress_security_groups = "${module.security-group-lb.security_group_id}"
 }
 
 module "load-balancer" {
@@ -32,7 +32,7 @@ module "load-balancer" {
   project = "${var.project}"
   owner = "${var.owner}"
   vpc_id = "${module.vpc.vpc_id}"
-  security_group_ids = ["${module.security-group-lb.security_group_ids}"]
+  security_group_id = "${module.security-group-lb.security_group_id}"
   public_subnets_ids = ["${module.vpc.public_subnets_ids}"]
 }
 
@@ -52,6 +52,6 @@ module "application" {
   execution_role_arn = "${module.iam.execution_role_arn}"
   cluster_id = "${module.cluster.cluster_id}"
   public_subnets_ids  = ["${module.vpc.public_subnets_ids}"]
-  security_groups_app = ["${module.security-group-app.security_group_ids}"]
+  security_groups_app = "${module.security-group-app.security_group_id}"
   target_group_arn = "${module.load-balancer.arn}"
 }

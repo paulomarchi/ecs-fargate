@@ -8,10 +8,8 @@ variable "project" {
 
 variable "vpc_id" {
   description = "VPC ID"
-  type        = "list"
 }
 
 variable "ingress_security_groups" {
-  type        = "list"
   description = "Ingress Security Groups"
 }

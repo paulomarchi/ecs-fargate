@@ -8,5 +8,4 @@ variable "project" {
 
 variable "vpc_id" {
   description = "VPC ID"
-  type = "list"
 }
