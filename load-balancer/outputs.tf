@@ -1,3 +1,7 @@
+output "lb_listener_arn" {
+  value = "${aws_alb_listener.lb_main.arn}"
+}
+
 output "arn" {
   value = "${aws_alb_target_group.lb_main.arn}"
 }

@@ -24,6 +24,10 @@ resource "aws_alb_target_group" "lb_main" {
     Owner = "${var.owner}"
     Project = "${var.project}"
   }
+
+  depends_on = [
+    "aws_alb.lb_main",  
+  ]
 }
 
 resource "aws_alb_listener" "lb_main" {
@@ -35,4 +39,9 @@ resource "aws_alb_listener" "lb_main" {
     target_group_arn = "${aws_alb_target_group.lb_main.arn}"
     type             = "forward"
   }
+  
+  depends_on = [
+    "aws_alb.lb_main",  
+    "aws_alb_target_group.lb_main",
+  ]
 }

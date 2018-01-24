@@ -15,7 +15,12 @@ variable "aws_azs" {
   type        = "list"
 }
 
-variable "subnets_cidr_blocks" {
+variable "public_subnets_cidr_blocks" {
+    description = "Insert CIR Blocks for VPCs"
+    type = "list"
+}
+
+variable "private_subnets_cidr_blocks" {
     description = "Insert CIR Blocks for VPCs"
     type = "list"
 }

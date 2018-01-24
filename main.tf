@@ -4,7 +4,8 @@ module "vpc" {
   project             = "${var.project}"
   vpc_cidr_blocks     = "${var.vpc_cidr_blocks}"
   aws_azs             = ["${var.aws_azs}"]
-  subnets_cidr_blocks = ["${var.subnets_cidr_blocks}"]  
+  public_subnets_cidr_blocks = ["${var.public_subnets_cidr_blocks}"]
+  private_subnets_cidr_blocks = ["${var.private_subnets_cidr_blocks}"]  
 }
 
 module "cluster" {
@@ -51,7 +52,7 @@ module "application" {
   project = "${var.project}"
   execution_role_arn = "${module.iam.execution_role_arn}"
   cluster_id = "${module.cluster.cluster_id}"
-  public_subnets_ids  = ["${module.vpc.public_subnets_ids}"]
+  private_subnets_ids  = ["${module.vpc.private_subnets_ids}"]
   security_groups_app = "${module.security-group-app.security_group_id}"
   target_group_arn = "${module.load-balancer.arn}"
 }

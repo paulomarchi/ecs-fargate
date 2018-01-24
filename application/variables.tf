@@ -10,7 +10,7 @@ variable "cluster_id" {
   description = "ECS Cluster ID"
 }
 
-variable "public_subnets_ids" {
+variable "private_subnets_ids" {
   type        = "list"
   description = "VPC Public Subnets"
 }
