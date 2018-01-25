@@ -31,3 +31,108 @@ resource "aws_ecs_service" "service-poc-app" {
   ]
 
 }
+
+resource "aws_cloudwatch_metric_alarm" "poc_app_service_high" {
+  alarm_name          = "${var.project}-CPU-Utilization-High-30"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = "30"
+
+  dimensions {
+    ClusterName = "${var.project}"
+    ServiceName = "${aws_ecs_service.service-poc-app.name}"
+  }
+
+  alarm_actions = ["${aws_appautoscaling_policy.poc_app_up.arn}"]
+}
+
+resource "aws_cloudwatch_metric_alarm" "poc_app_service_low" {
+  alarm_name          = "${var.project}-CPU-Utilization-Low-5"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = "5"
+
+  dimensions {
+    ClusterName = "${var.project}"
+    ServiceName = "${aws_ecs_service.service-poc-app.name}"
+  }
+
+  alarm_actions = ["${aws_appautoscaling_policy.poc_app_down.arn}"]
+}
+
+resource "aws_appautoscaling_target" "poc_app_scale_target" {
+  service_namespace = "ecs"
+  resource_id = "service/${var.project}/${aws_ecs_service.service-poc-app.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  role_arn = "${var.role_arn}"
+  min_capacity = 1
+  max_capacity = 4
+
+  depends_on = [
+    "aws_ecs_service.service-poc-app",
+  ]
+
+}
+
+resource "aws_appautoscaling_policy" "poc_app_up" {
+  name                      = "poc-app-scale-up"
+  service_namespace         = "ecs"
+  resource_id               = "service/${var.project}/${aws_ecs_service.service-poc-app.name}"
+  scalable_dimension        = "ecs:service:DesiredCount"
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 300
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_upper_bound = 0
+      scaling_adjustment          = -1
+    }
+  }
+
+  depends_on = [
+    "aws_appautoscaling_target.poc_app_scale_target"
+  ]
+}
+
+resource "aws_appautoscaling_policy" "poc_app_down" {
+  name                      = "poc-app-scale-down"
+  service_namespace         = "ecs"
+  resource_id               = "service/${var.project}/${aws_ecs_service.service-poc-app.name}"
+  scalable_dimension        = "ecs:service:DesiredCount"
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 300
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_upper_bound = 0
+      scaling_adjustment          = -1
+    }
+  }
+
+  depends_on = [
+    "aws_appautoscaling_target.poc_app_scale_target"
+  ]
+}
+
+// resource "aws_iam_role" "ecs_autoscale_role" {
+//   name               = "ecsAutoscaleRole"
+//   assume_role_policy = "${file("${path.module}/autoscale-assume-role.json")}"
+// }
+
+// resource "aws_iam_policy_attachment" "ecs_autoscale_role_attach" {
+//   name       = "ecs-autoscale-role-attach"
+//   roles      = ["${aws_iam_role.ecs_autoscale_role.name}"]
+//   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
+// }

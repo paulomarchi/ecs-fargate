@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "poc-app-role" {
 
     principals {
       type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
+      identifiers = ["ecs-tasks.amazonaws.com", "application-autoscaling.amazonaws.com"]
     }
   }
 }

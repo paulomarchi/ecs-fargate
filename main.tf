@@ -55,4 +55,5 @@ module "application" {
   private_subnets_ids  = ["${module.vpc.private_subnets_ids}"]
   security_groups_app = "${module.security-group-app.security_group_id}"
   target_group_arn = "${module.load-balancer.arn}"
+  role_arn = "${module.iam.execution_role_arn}"
 }

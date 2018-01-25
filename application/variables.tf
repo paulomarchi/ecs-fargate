@@ -22,3 +22,7 @@ variable "security_groups_app" {
 variable "target_group_arn" {
   description = "Insert load balancer target group arn"
 }
+
+variable "role_arn" {
+  description = "Insert ecs autoscale role arn"
+}
