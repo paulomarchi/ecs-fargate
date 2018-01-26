@@ -48,6 +48,13 @@ resource "aws_cloudwatch_metric_alarm" "poc_app_service_high" {
   }
 
   alarm_actions = ["${aws_appautoscaling_policy.poc_app_up.arn}"]
+
+  depends_on = [
+    "aws_ecs_service.service-poc-app",
+    "aws_appautoscaling_policy.poc_app_up",
+    "aws_ecs_task_definition.poc-app",
+    "aws_appautoscaling_target.poc_app_scale_target"
+  ]
 }
 
 resource "aws_cloudwatch_metric_alarm" "poc_app_service_low" {
@@ -66,6 +73,13 @@ resource "aws_cloudwatch_metric_alarm" "poc_app_service_low" {
   }
 
   alarm_actions = ["${aws_appautoscaling_policy.poc_app_down.arn}"]
+
+  depends_on = [
+    "aws_ecs_service.service-poc-app",
+    "aws_appautoscaling_policy.poc_app_down",
+    "aws_ecs_task_definition.poc-app",
+    "aws_appautoscaling_target.poc_app_scale_target"
+  ]
 }
 
 resource "aws_appautoscaling_target" "poc_app_scale_target" {
@@ -100,7 +114,8 @@ resource "aws_appautoscaling_policy" "poc_app_up" {
   }
 
   depends_on = [
-    "aws_appautoscaling_target.poc_app_scale_target"
+    "aws_appautoscaling_target.poc_app_scale_target",
+    "aws_ecs_service.service-poc-app",
   ]
 }
 
@@ -122,17 +137,7 @@ resource "aws_appautoscaling_policy" "poc_app_down" {
   }
 
   depends_on = [
-    "aws_appautoscaling_target.poc_app_scale_target"
+    "aws_appautoscaling_target.poc_app_scale_target",
+    "aws_ecs_service.service-poc-app",
   ]
 }
-
-// resource "aws_iam_role" "ecs_autoscale_role" {
-//   name               = "ecsAutoscaleRole"
-//   assume_role_policy = "${file("${path.module}/autoscale-assume-role.json")}"
-// }
-
-// resource "aws_iam_policy_attachment" "ecs_autoscale_role_attach" {
-//   name       = "ecs-autoscale-role-attach"
-//   roles      = ["${aws_iam_role.ecs_autoscale_role.name}"]
-//   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
-// }
