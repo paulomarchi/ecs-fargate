@@ -19,7 +19,8 @@ $ aws configure --profile <name-profile>
 ````
 #### Create a keypair
 ```
-$ aws --profile <name-profile>  ec2 create-key-pair --key-name <key-pair-name> --query 'KeyMaterial' --output text > <key-pair-name>.pem
+$ aws --profile <name-profile>  ec2 create-key-pair --key-name <key-pair-name> \
+  --query 'KeyMaterial' --output text > <key-pair-name>.pem
 ```
 
 ### Reoute53
