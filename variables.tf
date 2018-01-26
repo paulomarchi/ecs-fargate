@@ -33,3 +33,7 @@ variable "private_subnets_cidr_blocks" {
     description = "Insert CIR Blocks for VPCs"
     type = "list"
 }
+
+variable "domain" {
+  description = "Insert domain"
+}

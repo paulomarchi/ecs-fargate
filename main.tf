@@ -57,3 +57,11 @@ module "application" {
   target_group_arn = "${module.load-balancer.arn}"
   role_arn = "${module.iam.execution_role_arn}"
 }
+
+module "dns" {
+  source = "./dns"
+  project = "${var.project}"
+  domain = "${var.domain}"
+  lb_dns_name = "${module.load-balancer.dns}"
+  lb_zone_id = "${module.load-balancer.zone_id}"
+}

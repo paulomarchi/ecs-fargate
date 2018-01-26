@@ -7,3 +7,4 @@ aws_azs = ["us-east-1a", "us-east-1b", "us-east-1c","us-east-1d"]
 vpc_cidr_blocks = "172.32.0.0/16"
 public_subnets_cidr_blocks = ["172.32.0.0/24", "172.32.1.0/24"]
 private_subnets_cidr_blocks = ["172.32.2.0/24", "172.32.3.0/24"]
+domain = "<your_domain>"
