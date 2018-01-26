@@ -18,7 +18,7 @@ resource "aws_ecs_service" "service-poc-app" {
   load_balancer {
     target_group_arn = "${var.target_group_arn}"
     container_name = "poc-app"
-    container_port = 3000
+    container_port = 80
   }
 
   network_configuration {
