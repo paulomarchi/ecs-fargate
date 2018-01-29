@@ -1,13 +1,13 @@
 [
    {
       "name": "poc-app",
-      "image": "tutum/hello-world",
+      "image": "pmarchi/shatterdome-test-app",
       "cpu": 256,
       "memory": 512,
       "essential": true,
       "portMappings": [
          {
-            "containerPort": 80,
+            "containerPort": 3000,
             "protocol": "tcp"
          }
       ],
